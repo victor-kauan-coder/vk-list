@@ -24,6 +24,7 @@ from todos.views import (
     TodoDeleteView,
     TodoCompleteView,
 )
+from django.contrib.auth import views as auth_views
 
 # from todos.views import todo_list
 
@@ -34,4 +35,6 @@ urlpatterns = [
     path("update/<int:pk>", TodoUpdateView.as_view(), name="todo_update"),
     path("delete/<int:pk>", TodoDeleteView.as_view(), name="todo_delete"),
     path("complete/<int:pk>", TodoCompleteView.as_view(), name="todo_complete"),
+    path("login/", auth_views.LoginView.as_view(), name="login"),
+    path("logout/", auth_views.LogoutView.as_view(), name="logout"),
 ]
