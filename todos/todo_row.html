@@ -1,0 +1,43 @@
+<tr id="todo-{{ todo.id }}">
+    <th scope="row" class="ps-3 text-muted">{{ todo.id }}</th>
+    <td class="fw-semibold">{{ todo.title }}</td>
+    <td class="text-muted small">{{ todo.created_at|date:"d/m/Y" }}</td>
+    <td>
+        <span class="badge bg-light text-dark border">
+            <i class="bi bi-calendar-event me-1"></i>{{ todo.deadline|date:"d/m/Y" }}
+        </span>
+    </td>
+    <td>
+        {% if todo.finish_at %}
+            <span class="badge rounded-pill bg-success-subtle text-success border border-success">Concluído</span>
+        {% else %}
+            <span class="badge rounded-pill bg-warning-subtle text-warning-emphasis border border-warning">Pendente</span>
+        {% endif %}
+    </td>
+    <td class="text-center">
+        <div class="btn-group">
+            <a href="{% url "todo_update" pk=todo.pk %}" class="btn btn-outline-primary btn-sm btn-action {% if todo.finish_at %}disabled{%endif%}" title="Editar">
+                <i class="bi bi-pencil"></i>
+            </a>
+
+
+            <button 
+                hx-post="{% url 'todo_complete' pk=todo.pk %}" 
+                hx-target="#todo-{{ todo.id }}" 
+                hx-swap="outerHTML"
+                class="btn btn-outline-success btn-sm btn-action {% if todo.finish_at %}disabled{%endif%}" title="Concluir">
+                <i class="bi bi-check-lg"></i>
+            </button>
+
+
+            <button 
+                hx-delete="{% url 'todo_delete' pk=todo.pk %}" 
+                hx-target="#todo-{{ todo.id }}" 
+                hx-swap="outerHTML swap:500ms"
+                hx-confirm="Deseja realmente excluir esta tarefa?"
+                class="btn btn-outline-danger btn-sm btn-action" title="Excluir">
+                <i class="bi bi-trash"></i>
+            </button>
+        </div>
+    </td>
+</tr>
